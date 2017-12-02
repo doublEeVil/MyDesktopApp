@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="./element-ui.css">
+    <meta charset="UTF-8">
+    <title>定时器</title>
+  </head>
+  <body>
+  <script src="./vue.js"></script>
+  <script src="./element-ui.js"></script>
+  <h1>---欢迎使用定时器---</h1>
+
+	<h1 id="time">现在时间：<script>new Date().toLocaleTimeString()</script></h1>
+	<div id="app">
+    <h1 id="time">选择倒计时 <el-input-number v-model="leftTime"></el-input-number> 分钟</h1>
+    <el-button type="primary" round id="btn-start" onclick="onStart();">开始计时</el-button>
+    <el-button type="danger" round id="btn-reset" onclick="onReset();">重置</el-button>
+  </div>
+  <h1 id="letf-time"></h1>
+  
+	<script>
+		window.setInterval(()=>{
+			document.getElementById("time").innerHTML = ("现在时间：" + new Date().toLocaleTimeString());
+		}, 500);
+
+
+    var count = 0;
+    var interval;
+    var isOn = false;
+    var isReset = true;
+
+    function startInterval() {
+      interval = window.setInterval(()=>{
+        if (count == 0) {
+          alert("计时结束....")
+          window.clearInterval(interval);
+          return;
+        }
+        count--;
+        let tep = count;
+        let hour = 0, min = 0, sec;
+        if (tep >= 3600) {
+          hour = parseInt(tep / 3600);
+          tep  = parseInt(tep % 3600);
+        }
+        if (tep >= 60) {
+          min = parseInt(tep / 60);
+          tep = parseInt(tep % 60);
+        }
+        sec = tep;
+        document.getElementById("letf-time").innerHTML = ("剩余 " + hour + " 时 " + min + " 分 " + sec + "秒");
+      }, 1000);
+    }
+
+    function onStart() {
+      if(!isOn) {
+        console.log("开始计时..."+ ctor.leftTime);
+        if (isReset) {
+          count = ctor.leftTime * 60;
+          isReset = false;
+        }
+        startInterval(interval);
+        document.getElementById("btn-start").innerText = "暂停计时";
+        isOn = true;
+      } else {
+        console.log("暂停计时..."+ ctor.leftTime)
+        window.clearInterval(interval);
+        document.getElementById("btn-start").innerText = "开始计时";
+        isOn = false;
+      }
+    }
+
+    function onReset() {
+      isOn = false;
+      isReset = true;
+      window.clearInterval(interval);
+      document.getElementById("letf-time").innerHTML = ("");
+      document.getElementById("btn-start").innerText = "开始计时";
+    }
+
+
+		var Main = {
+			data() {
+        return {
+          leftTime: 30
+        }
+			}
+		}
+		var Ctor = Vue.extend(Main)
+		var ctor = new Ctor().$mount('#app')
+
+
+
+	</script>
+
+  <script>
+    // You can also require other files to run in this process
+    require('./renderer.js')
+  </script>
+  </body>
+</html>

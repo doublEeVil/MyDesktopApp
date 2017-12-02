@@ -1,0 +1,14 @@
+{
+  "name": "mydesktopapp",
+  "version": "1.0.0",
+  "description": "desktop application for myself",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "doubleevil",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "~1.7.8"
+  }
+}
